@@ -33,6 +33,7 @@ base_switch = TouchSensor(Port.S1)
 # Färg sensorn i armen
 elbow_sensor = ColorSensor(Port.S3)
 
+
 def calibration():
     # Kalibrera basens startposition
     base_motor.run(-60)
@@ -55,11 +56,11 @@ def calibration():
     elbow_motor.reset_angle(0)
     elbow_motor.hold()
 
-
     # Kalibreringen är klar efter 3 pip
     for i in range(3):
         ev3.speaker.beep()
         wait(100)
+
 
 def robot_pick(pickup):
     base_motor.run_target(60, pickup)
@@ -70,6 +71,7 @@ def robot_pick(pickup):
 
     elbow_motor.run_target(30, 0)
 
+
 def robot_release(position):
     base_motor.run_target(60, position)
     
@@ -79,51 +81,31 @@ def robot_release(position):
     
     elbow_motor.run_target(60, 0)
 
-def drop_location(color):
-    # Pickup zone
-    if 'RED' in color:
-        robot_release(red)
-    
 
-
-    # Red zone
-    # Green zone
-    # Blue zone
-    # Yellow zone
-
-def setup_pickup():
-    while True:
+def setup_locations():
+    setup = True
+    pickup = None
+    dropoff = None
+    while setup == True:
         base_motor.stop()
-        if ev3.buttons.pressed(): 
-            pickup = base_motor.angle()
-            return pickup
+        if ev3.buttons.pressed() != []:
+            if "CENTER" in ev3.buttons.pressed():
+                pickup = base_motor.angle()
+            elif "UP" in ev3.buttons.pressed():
+                dropoff = base_motor.angle()
+            elif "DOWN" in ev3.buttons:
+                setup = False
+    return pickup, dropoff
 
-def setup_dropoff():
-    while True:
-        base_motor.stop()
-        if ev3.buttons.pressed(): 
-            dropoff = base_motor.angle()
-            return dropoff
-    
-
-
-            
 
 def identify_color():
     current_color = elbow_sensor.color()
     ev3.speaker.say(current_color)
     print(current_color)
-    drop_location(current_color)
-
-
 
 
 if __name__ == "__main__":
     calibration()
-    pickup = setup_pickup()
-    wait(500)
-    dropoff = setup_dropoff()
+    pickup, dropoff = setup_locations()
     robot_pick(pickup)
     robot_release(dropoff)
-
-
