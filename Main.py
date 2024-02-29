@@ -89,11 +89,11 @@ def setup_locations():
     while setup == True:
         base_motor.stop()
         if ev3.buttons.pressed() != []:
-            if "CENTER" in ev3.buttons.pressed():
+            if "CENTER" in ev3.buttons.pressed()[0]:
                 pickup = base_motor.angle()
-            elif "UP" in ev3.buttons.pressed():
+            elif "UP" in ev3.buttons.pressed()[0]:
                 dropoff = base_motor.angle()
-            elif "DOWN" in ev3.buttons:
+            elif "DOWN" in ev3.buttons[0]:
                 setup = False
     return pickup, dropoff
 
