@@ -61,8 +61,8 @@ def calibration():
         ev3.speaker.beep()
         wait(100)
 
-def robot_pick(position):
-    base_motor.run_target(60, position)
+def robot_pick(pickup):
+    base_motor.run_target(60, pickup)
 
     elbow_motor.run_target(60, -40)
 
@@ -79,17 +79,51 @@ def robot_release(position):
     
     elbow_motor.run_target(60, 0)
 
+def drop_location(color):
+    # Pickup zone
+    if 'RED' in color:
+        robot_release(red)
+    
+
+
+    # Red zone
+    # Green zone
+    # Blue zone
+    # Yellow zone
+
+def setup_pickup():
+    while True:
+        base_motor.stop()
+        if ev3.buttons.pressed(): 
+            pickup = base_motor.angle()
+            return pickup
+
+def setup_dropoff():
+    while True:
+        base_motor.stop()
+        if ev3.buttons.pressed(): 
+            dropoff = base_motor.angle()
+            return dropoff
+    
+
+
+            
+
 def identify_color():
     current_color = elbow_sensor.color()
+    ev3.speaker.say(current_color)
     print(current_color)
+    drop_location(current_color)
+
+
+
 
 if __name__ == "__main__":
     calibration()
-    robot_pick(200)
-    identify_color()
-    wait(1000)
-    robot_release(0)
-    robot_pick(100)
-    identify_color()
-    robot_release(200)
+    pickup = setup_pickup()
+    wait(500)
+    dropoff = setup_dropoff()
+    robot_pick(pickup)
+    robot_release(dropoff)
+
 
