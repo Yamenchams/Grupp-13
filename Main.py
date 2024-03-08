@@ -129,21 +129,19 @@ def color_sorting():
 def sorted_release(color_list, current_color, dropoff, dropoff_2):
     print(current_color)
     print(str(color_list[0]))
-    if current_color == str(color_list[0]):
+    if str(current_color) == str(color_list[0]):
         print("Releasing at Green")
         robot_release(dropoff)
-    elif current_color == str(color_list[1]):
+    elif str(current_color) == str(color_list[1]):
         print("Releasing at Red")
         robot_release(dropoff_2)
 
 
 if __name__ == "__main__":
-    """
+    
     calibration()
     pickup, dropoff, dropoff_2 = setup_locations()
     color_list = color_sorting()
     robot_pick(pickup)
-    """
-    color_list = color_sorting()
     current_color = identify_color(0)
     sorted_release(color_list, current_color, 0, 180)
