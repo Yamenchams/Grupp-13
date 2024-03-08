@@ -26,7 +26,7 @@ base_motor.control.limits(speed=60, acceleration=120)
 base_switch = TouchSensor(Port.S1)
 
 # Färg sensorn i armen
-elbow_sensor = ColorSensor(Port.S3)
+elbow_sensor = ColorSensor(Port.S2)
 
 
 def calibration():
@@ -82,22 +82,23 @@ def setup_locations():
     pickup = None
     dropoff = None
     dropoff_2 = None
+    zones = 0
     while setup == True:
-        zones = 0
         base_motor.stop()
         if ev3.buttons.pressed() != []:
-            if "CENTER" in ev3.buttons.pressed()[0]:
+            btn = str(ev3.buttons.pressed()[0])
+            if "CENTER" in btn:
                 pickup = base_motor.angle()
-            elif "UP" in ev3.buttons.pressed()[0] and zones == 0:
+            elif "UP" in btn and zones == 0:
                 dropoff = base_motor.angle()
                 zones += 1
-            elif "UP" in ev3.buttons.pressed()[0] and zones == 1:
+            elif "UP" in btn and zones == 1:
                 dropoff_2 = base_motor.angle()
-            elif "DOWN" in ev3.buttons.pressed()[0]:
+            elif "DOWN" in btn:
                 setup = False
-            elif "LEFT" in ev3.buttons.pressed()[0]:
+            elif "LEFT" in btn:
                 base_motor.run(60)
-            elif "RIGHT" in ev3.buttons.pressed()[0]:
+            elif "RIGHT" in btn:
                 base_motor.run(-60)
     return pickup, dropoff, dropoff_2
 
@@ -129,18 +130,3 @@ if __name__ == "__main__":
     robot_pick(pickup)
     current_color = identify_color()
     sorted_release(color_list, current_color, dropoff, dropoff_2)
-    
-def setup_locations():
-    setup = True
-    pickup = None
-    dropoff = None
-    while setup == True:
-        base_motor.stop()
-        if ev3.buttons.pressed() != []:
-            btn = str(ev3.buttons.pressed()[0])
-            if "CENTER" in btn:
-                pickup = base_motor.angle()
-            if "UP" in btn:
-                dropoff = base_motor.angle()
-            if "DOWN" in btn:
-                setup = False
