@@ -92,34 +92,46 @@ def setup_locations():
             elif "UP" in btn and zones == 0:
                 dropoff = base_motor.angle()
                 zones += 1
+                print("First zone registered")
+                wait(500)
             elif "UP" in btn and zones == 1:
                 dropoff_2 = base_motor.angle()
+                print("Second zone registered")
+                wait(500)
             elif "DOWN" in btn:
                 setup = False
             elif "LEFT" in btn:
                 base_motor.run(60)
+                wait(400)
             elif "RIGHT" in btn:
                 base_motor.run(-60)
+                wait(400)
     return pickup, dropoff, dropoff_2
 
 
-def identify_color():
+def identify_color(pickup):
     current_color = elbow_sensor.color()
-    ev3.speaker.say(current_color)
+    
+    if current_color == None:
+        robot_pick(pickup)
+        identify_color()
+        
     print(current_color)
     return current_color
 
 
 def color_sorting():
-    c_1 = input("Color for dropoff zone 1:")
-    c_2 = input("Color for dropoff zone 2:")
+    c_1 = "Color.GREEN"
+    c_2 = "Color.RED"
     return [c_1, c_2]
 
 
 def sorted_release(color_list, current_color, dropoff, dropoff_2):
-    if current_color == color_list[0]:
+    if current_color == str(color_list[0]):
+        print("Releasing at Green")
         robot_release(dropoff)
-    elif current_color == color_list[1]:
+    elif current_color == str(color_list[1]):
+        print("Releasing at Red")
         robot_release(dropoff_2)
 
 
@@ -128,5 +140,5 @@ if __name__ == "__main__":
     pickup, dropoff, dropoff_2 = setup_locations()
     color_list = color_sorting()
     robot_pick(pickup)
-    current_color = identify_color()
+    current_color = identify_color(pickup)
     sorted_release(color_list, current_color, dropoff, dropoff_2)
