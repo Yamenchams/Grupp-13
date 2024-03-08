@@ -6,11 +6,6 @@ from pybricks.tools import wait, StopWatch, DataLog
 from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile
 
-
-# This program requires LEGO EV3 MicroPython v2.0 or higher.
-# Click "Open user guide" on the EV3 extension tab for more information.
-
-
 # Create your objects here.
 ev3 = EV3Brick()
 
@@ -86,26 +81,51 @@ def setup_locations():
     setup = True
     pickup = None
     dropoff = None
+    dropoff_2 = None
     while setup == True:
+        zones = 0
         base_motor.stop()
         if ev3.buttons.pressed() != []:
             if "CENTER" in ev3.buttons.pressed()[0]:
                 pickup = base_motor.angle()
-            elif "UP" in ev3.buttons.pressed()[0]:
+            elif "UP" in ev3.buttons.pressed()[0] and zones == 0:
                 dropoff = base_motor.angle()
-            elif "DOWN" in ev3.buttons[0]:
+                zones += 1
+            elif "UP" in ev3.buttons.pressed()[0] and zones == 1:
+                dropoff_2 = base_motor.angle()
+            elif "DOWN" in ev3.buttons.pressed()[0]:
                 setup = False
-    return pickup, dropoff
+            elif "LEFT" in ev3.buttons.pressed()[0]:
+                base_motor.run(60)
+            elif "RIGHT" in ev3.buttons.pressed()[0]:
+                base_motor.run(-60)
+    return pickup, dropoff, dropoff_2
 
 
 def identify_color():
     current_color = elbow_sensor.color()
     ev3.speaker.say(current_color)
     print(current_color)
+    return current_color
+
+
+def color_sorting():
+    c_1 = input("Color for dropoff zone 1:")
+    c_2 = input("Color for dropoff zone 2:")
+    return [c_1, c_2]
+
+
+def sorted_release(color_list, current_color, dropoff, dropoff_2):
+    if current_color == color_list[0]:
+        robot_release(dropoff)
+    elif current_color == color_list[1]:
+        robot_release(dropoff_2)
 
 
 if __name__ == "__main__":
     calibration()
-    pickup, dropoff = setup_locations()
+    pickup, dropoff, dropoff_2 = setup_locations()
+    color_list = color_sorting()
     robot_pick(pickup)
-    robot_release(dropoff)
+    current_color = identify_color()
+    sorted_release(color_list, current_color, dropoff, dropoff_2)
