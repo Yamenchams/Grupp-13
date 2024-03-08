@@ -129,3 +129,18 @@ if __name__ == "__main__":
     robot_pick(pickup)
     current_color = identify_color()
     sorted_release(color_list, current_color, dropoff, dropoff_2)
+    
+def setup_locations():
+    setup = True
+    pickup = None
+    dropoff = None
+    while setup == True:
+        base_motor.stop()
+        if ev3.buttons.pressed() != []:
+            btn = str(ev3.buttons.pressed()[0])
+            if "CENTER" in btn:
+                pickup = base_motor.angle()
+            if "UP" in btn:
+                dropoff = base_motor.angle()
+            if "DOWN" in btn:
+                setup = False
