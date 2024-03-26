@@ -19,7 +19,7 @@ elbow_motor = Motor(Port.B, Direction.COUNTERCLOCKWISE, [8, 40])
 base_motor = Motor(Port.C, Direction.COUNTERCLOCKWISE, [12, 36])
 
 # Hastighetskrav
-elbow_motor.control.limits(speed=60, acceleration=120)
+elbow_motor.control.limits(speed=60, acceleration=120)#wtf är detta??? gör om förfan //Johan
 base_motor.control.limits(speed=60, acceleration=120)
 
 # Tar fram startpunkten av basen i förhållande till switch
