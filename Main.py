@@ -162,14 +162,17 @@ def main():
     calibration()
     pickup, dropoff, dropoff_2 = setup_locations()
     color_list = setup_colors()
-    count = 0
-    while count < 10:
+    while True:
         robot_pick(pickup)
         current_color = identify_color(0)
         wait(500)
-        print("Entering sorting function")
         sorted_release(color_list, current_color, dropoff, dropoff_2)
-        count += 1
+        btn = str(ev3.buttons.pressed()[0])
+        if btn != []:
+            if "UP" in btn:
+                pickup, dropoff, dropoff_2 = setup_locations()
+            elif "DOWN" in btn:
+                color_list = setup_colors()
 
 
 if __name__ == "__main__":
