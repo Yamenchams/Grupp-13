@@ -28,9 +28,9 @@ base_switch = TouchSensor(Port.S1)
 # Färg sensorn i armen
 elbow_sensor = ColorSensor(Port.S2)
 
-def say_color():
-    """this functions tells the color of the box."""
-    ev3.speaker.say(elbow_sensor.color())
+# def say_color():
+#     """this functions tells the color of the box."""
+#     ev3.speaker.say(elbow_sensor.color())
 
 
 
@@ -70,7 +70,7 @@ def robot_pick(position):
     gripper_motor.run_until_stalled(200, then=Stop.HOLD, duty_limit=50)
 
     elbow_motor.run_target(30, 0)
-    say_color()
+    # say_color()
 
 
 def robot_release(position):
@@ -131,16 +131,19 @@ def setup_colors():
     c_1 = []
     c_2 = []
     for color in colors:
-        ev3.screen.draw_text(40, "Arrow up for DZone 1, Arrow down for DZone 2")
-        ev3.screen.draw_text(40, 50, color)
+        ev3.screen.draw_text(10, 50, "Arrow up for DZone 1, Arrow down for DZone 2")
+        ev3.screen.draw_text(40, 90, color)
+        wait(500)
         while True:
-            btn = str(ev3.buttons.pressed()[0])
-            if "Up" in btn:
-                c_1.append(color)
-                break
-            elif "Down" in btn:
-                c_2.append(color)
-                break
+            if ev3.buttons.pressed() != []:
+                btn = str(ev3.buttons.pressed()[0])
+                if "UP" in btn:
+                    c_1.append(color)
+                    break
+                elif "DOWN" in btn:
+                    c_2.append(color)
+                    break
+        ev3.screen.clear()
     return c_1, c_2
 
 
