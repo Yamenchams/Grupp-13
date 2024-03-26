@@ -28,6 +28,11 @@ base_switch = TouchSensor(Port.S1)
 # Färg sensorn i armen
 elbow_sensor = ColorSensor(Port.S2)
 
+def say_color():
+    """this functions tells the color of the box."""
+    ev3.speaker.say(elbow_sensor.color())
+
+
 
 def calibration():
     # Kalibrera basens startposition
@@ -65,6 +70,7 @@ def robot_pick(pickup):
     gripper_motor.run_until_stalled(200, then=Stop.HOLD, duty_limit=50)
 
     elbow_motor.run_target(30, 0)
+    say_color()
 
 
 def robot_release(position):
