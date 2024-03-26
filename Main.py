@@ -117,17 +117,19 @@ def setup_locations():
 
 def identify_color(pickup):
     current_color = elbow_sensor.color()
-    
+    string_color = str(current_color)
+    final_color = string_color[6:]
+
     if current_color == None:
        robot_pick(pickup)
-       identify_color()
+       identify_color(pickup)
         
-    print(current_color)
-    return current_color
+    print(final_color)
+    return final_color
 
 
 def setup_colors():
-    colors = ["Green", "Red", "Yellow", "Blue", "Black"]
+    colors = ["GREEN", "RED", "YELLOW", "BLUE", "BLACK"]
     c_1 = []
     c_2 = []
     for color in colors:
@@ -149,10 +151,10 @@ def setup_colors():
 
 def sorted_release(color_list, current_color, dropoff, dropoff_2):
     if str(current_color) in color_list[0]:
-        print("Releasing at Green")
+        print("Releasing at dropoff 1")
         robot_release(dropoff)
     elif str(current_color) in color_list[1]:
-        print("Releasing at Red")
+        print("Releasing at dropoff 2")
         robot_release(dropoff_2)
 
 
@@ -160,9 +162,14 @@ def main():
     calibration()
     pickup, dropoff, dropoff_2 = setup_locations()
     color_list = setup_colors()
-    robot_pick(pickup)
-    current_color = identify_color(0)
-    sorted_release(color_list, current_color, dropoff, dropoff_2)
+    count = 0
+    while count < 10:
+        robot_pick(pickup)
+        current_color = identify_color(0)
+        wait(500)
+        print("Entering sorting function")
+        sorted_release(color_list, current_color, dropoff, dropoff_2)
+        count += 1
 
 
 if __name__ == "__main__":
