@@ -19,7 +19,7 @@ elbow_motor = Motor(Port.B, Direction.COUNTERCLOCKWISE, [8, 40])
 base_motor = Motor(Port.C, Direction.COUNTERCLOCKWISE, [12, 36])
 
 # Hastighetskrav
-elbow_motor.control.limits(speed=60, acceleration=120)
+elbow_motor.control.limits(speed=60, acceleration=120)#wtf är detta??? gör om förfan //Johan
 base_motor.control.limits(speed=60, acceleration=120)
 
 # Tar fram startpunkten av basen i förhållande till switch
@@ -27,6 +27,11 @@ base_switch = TouchSensor(Port.S1)
 
 # Färg sensorn i armen
 elbow_sensor = ColorSensor(Port.S2)
+
+def say_color():
+    """this functions tells the color of the box."""
+    ev3.speaker.say(elbow_sensor.color())
+
 
 
 def calibration():
@@ -65,6 +70,7 @@ def robot_pick(position):
     gripper_motor.run_until_stalled(200, then=Stop.HOLD, duty_limit=50)
 
     elbow_motor.run_target(30, 0)
+    say_color()
 
 
 def robot_release(position):
