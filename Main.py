@@ -57,8 +57,8 @@ def calibration():
         wait(100)
 
 
-def robot_pick(pickup):
-    base_motor.run_target(60, pickup)
+def robot_pick(position):
+    base_motor.run_target(60, position)
 
     elbow_motor.run_target(60, -40)
 
@@ -112,23 +112,33 @@ def setup_locations():
 def identify_color(pickup):
     current_color = elbow_sensor.color()
     
-    #if current_color == None:
-       # robot_pick(pickup)
-        #identify_color()
+    if current_color == None:
+       robot_pick(pickup)
+       identify_color()
         
     print(current_color)
     return current_color
 
 
-def color_sorting():
-    c_1 = "Color.GREEN"
-    c_2 = "Color.RED"
-    return [c_1, c_2]
+def setup_colors():
+    colors = ["Green", "Red", "Yellow", "Blue", "Black"]
+    c_1 = []
+    c_2 = []
+    for color in colors:
+        ev3.screen.draw_text(40, "Arrow up for DZone 1, Arrow down for DZone 2")
+        ev3.screen.draw_text(40, 50, color)
+        while True:
+            btn = str(ev3.buttons.pressed()[0])
+            if "Up" in btn:
+                c_1.append(color)
+                break
+            elif "Down" in btn:
+                c_2.append(color)
+                break
+    return c_1, c_2
 
 
 def sorted_release(color_list, current_color, dropoff, dropoff_2):
-    print(current_color)
-    print(str(color_list[0]))
     if str(current_color) == str(color_list[0]):
         print("Releasing at Green")
         robot_release(dropoff)
@@ -137,11 +147,15 @@ def sorted_release(color_list, current_color, dropoff, dropoff_2):
         robot_release(dropoff_2)
 
 
-if __name__ == "__main__":
-    
+def main():
     calibration()
     pickup, dropoff, dropoff_2 = setup_locations()
-    color_list = color_sorting()
+    color_list = setup_colors()
     robot_pick(pickup)
     current_color = identify_color(0)
-    sorted_release(color_list, current_color, 0, 180)
+    sorted_release(color_list, current_color, dropoff, dropoff_2)
+
+
+if __name__ == "__main__":
+    main()
+    
