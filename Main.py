@@ -144,14 +144,14 @@ def setup_colors():
                     c_2.append(color)
                     break
         ev3.screen.clear()
-    return c_1, c_2
+    return [c_1, c_2]
 
 
 def sorted_release(color_list, current_color, dropoff, dropoff_2):
-    if str(current_color) == str(color_list[0]):
+    if str(current_color) in color_list[0]:
         print("Releasing at Green")
         robot_release(dropoff)
-    elif str(current_color) == str(color_list[1]):
+    elif str(current_color) in color_list[1]:
         print("Releasing at Red")
         robot_release(dropoff_2)
 
