@@ -30,7 +30,8 @@ elbow_sensor = ColorSensor(Port.S2)
 
 def say_color():
     """this functions tells the color of the box."""
-    ev3.speaker.say(elbow_sensor.color())
+    color = str(elbow_sensor.color())
+    ev3.speaker.say(color[7:])
 
 
 
