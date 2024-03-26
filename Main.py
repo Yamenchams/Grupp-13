@@ -63,6 +63,8 @@ def calibration():
 
 
 def robot_pick(position):
+    gripper_motor.run_target(200, -90)
+
     base_motor.run_target(60, position)
 
     elbow_motor.run_target(60, -40)
@@ -89,6 +91,11 @@ def setup_locations():
     dropoff = None
     dropoff_2 = None
     zones = 0
+
+    base_motor.run(-60)
+    while not base_switch.pressed():
+        wait(10)
+
     while setup == True:
         base_motor.stop()
         if ev3.buttons.pressed() != []:
@@ -120,7 +127,7 @@ def identify_color(pickup):
     string_color = str(current_color)
     final_color = string_color[6:]
 
-    if current_color == None:
+    if current_color == None or current_color == 'BLACK':
        robot_pick(pickup)
        identify_color(pickup)
         
@@ -129,7 +136,7 @@ def identify_color(pickup):
 
 
 def setup_colors():
-    colors = ["GREEN", "RED", "YELLOW", "BLUE", "BLACK"]
+    colors = ["GREEN", "RED", "YELLOW", "BLUE"]
     c_1 = []
     c_2 = []
     for color in colors:
@@ -163,15 +170,20 @@ def main():
     pickup, dropoff, dropoff_2 = setup_locations()
     color_list = setup_colors()
     while True:
+        print("Hejsan")
         robot_pick(pickup)
-        current_color = identify_color(0)
+        current_color = identify_color(pickup)
         wait(500)
         sorted_release(color_list, current_color, dropoff, dropoff_2)
-        btn = str(ev3.buttons.pressed()[0])
-        if btn != []:
+        if ev3.buttons.pressed() != []:
+            btn = str(ev3.buttons.pressed()[0])
             if "UP" in btn:
+                ev3.speaker.beep()
+                wait(2000)
                 pickup, dropoff, dropoff_2 = setup_locations()
             elif "DOWN" in btn:
+                ev3.speaker.beep()
+                wait(2000)                
                 color_list = setup_colors()
 
 
