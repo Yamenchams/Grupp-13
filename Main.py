@@ -95,7 +95,7 @@ def setup_locations():
 
     while setup:
         base_motor.stop()
-        if not ev3.buttons.pressed():
+        if ev3.buttons.pressed() != []:
             btn = str(ev3.buttons.pressed()[0])
             if "CENTER" in btn:
                 pickup = base_motor.angle()
@@ -119,17 +119,15 @@ def setup_locations():
     return pickup, dropoff, dropoff_2
 
 
-def identify_color(pickup):
+def identify_color():
     current_color = str(elbow_sensor.color())[6:]
-    ev3.speaker.say(current_color)
-
-    while current_color is None or current_color == 'BLACK':
-        robot_pick(pickup)
-        current_color = str(elbow_sensor.color())[6:0]
-        ev3.speaker.say("No color detected")
-
     print(current_color)
-    return current_color
+    if current_color is None or current_color == 'BLACK':
+        ev3.speaker.say("No color detected")
+        return None
+    else:
+        ev3.speaker.say(current_color)
+        return current_color
 
 
 def setup_colors():
@@ -141,7 +139,7 @@ def setup_colors():
         ev3.screen.draw_text(40, 90, color)
         wait(500)
         while True:
-            if not ev3.buttons.pressed():
+            if ev3.buttons.pressed() != []:
                 btn = str(ev3.buttons.pressed()[0])
                 if "UP" in btn:
                     c_1.append(color)
@@ -170,8 +168,9 @@ def main():
         robot_pick(pickup)
         current_color = identify_color(pickup)
         wait(500)
-        sorted_release(color_list, current_color, dropoff, dropoff_2)
-        if not ev3.buttons.pressed():
+        if current_color is not None:
+            sorted_release(color_list, current_color, dropoff, dropoff_2)
+        if ev3.buttons.pressed() != []:
             btn = str(ev3.buttons.pressed()[0])
             if "UP" in btn:
                 ev3.speaker.beep()
