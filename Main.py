@@ -63,21 +63,18 @@ def calibration():
         wait(100)
 
 
-<<<<<<< Updated upstream
 def robot_move(position):
     base_motor.run(-60)
-    
+
     while base_motor.angle() >= position or not base_switch.pressed():
         wait(10)
         if ev3.buttons.pressed() != []:
             btn = str(ev3.buttons.pressed()[0])
             if "CENTER" in btn:
                 base_motor.hold()
+    base_motor.hold()
 
 
-
-=======
->>>>>>> Stashed changes
 def robot_pick(position):
     gripper_motor.run_target(200, -90)
 
