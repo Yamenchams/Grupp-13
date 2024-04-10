@@ -71,14 +71,15 @@ def left_or_right(position):
 
 
 def robot_move(part, speed, position):
-    if part == base_motor:
+    if "C" in str(part):
         part.run(speed * left_or_right(position))
     else:
         part.run(speed)
     robot_hold = False
 
+    print(part)
+
     while not part.angle() == position:
-        print(part.speed())
         if ev3.buttons.pressed() != []:
             btn = str(ev3.buttons.pressed()[0])
             if "CENTER" in btn and robot_hold is False:
@@ -87,19 +88,18 @@ def robot_move(part, speed, position):
                 wait(200)
             elif "CENTER" in btn:
                 wait(200)
-                part.run(60 * left_or_right(position))
+                part.run(speed)
                 robot_hold = False
-        print(ev3.buttons.pressed())
         wait(10)
     part.hold()
 
 
 def robot_pick(position):
-    robot_move(gripper_motor, 200, -90)
+    gripper_motor.run_target(200, -90)
 
     robot_move(base_motor, 60, position)
 
-    robot_move(elbow_motor, 60, -40)
+    robot_move(elbow_motor, -60, -40)
 
     gripper_motor.run_until_stalled(200, then=Stop.HOLD, duty_limit=50)
 
@@ -109,9 +109,9 @@ def robot_pick(position):
 def robot_release(position):
     robot_move(base_motor, 60, position)
 
-    robot_move(elbow_motor, 30, -40)
+    robot_move(elbow_motor, -30, -40)
 
-    robot_move(gripper_motor, 200, -90)
+    gripper_motor.run_target(200, -90)
 
     robot_move(elbow_motor, 60, 0)
 
