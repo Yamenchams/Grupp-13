@@ -63,6 +63,7 @@ def calibration():
         wait(100)
 
 
+<<<<<<< Updated upstream
 def robot_move(position):
     base_motor.run(-60)
     
@@ -75,10 +76,12 @@ def robot_move(position):
 
 
 
+=======
+>>>>>>> Stashed changes
 def robot_pick(position):
     gripper_motor.run_target(200, -90)
 
-    robot_move(position)
+    base_motor.run_target(60, position)
 
     elbow_motor.run_target(60, -40)
 
