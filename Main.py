@@ -76,8 +76,10 @@ def robot_move(position):
     while not base_motor.angle() == position:
         if ev3.buttons.pressed() != []:
             btn = str(ev3.buttons.pressed()[0])
-            if "CENTER" in btn:
+            if "CENTER" in btn and base_motor.speed() > 0:
                 base_motor.hold()
+            elif "CENTER" in btn:
+                base_motor.run(60 * left_or_right(position))
         print(ev3.buttons.pressed())
         wait(10)
     base_motor.hold()
