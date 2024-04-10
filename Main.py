@@ -1,12 +1,10 @@
 #!/usr/bin/env pybricks-micropython
 from pybricks.hubs import EV3Brick
 from pybricks.ev3devices import (Motor, TouchSensor, ColorSensor, InfraredSensor, UltrasonicSensor, GyroSensor)
-from pybricks.parameters import Port, Stop, Direction, Button, Color
+from pybricks.parameters import Port, Stop, Direction
 from pybricks.tools import wait, StopWatch, DataLog
-from pybricks.robotics import DriveBase
-from pybricks.media.ev3dev import SoundFile, ImageFile
 
-# Create your objects here.
+
 ev3 = EV3Brick()
 
 # Motorn för klon
@@ -19,7 +17,7 @@ elbow_motor = Motor(Port.B, Direction.COUNTERCLOCKWISE, [8, 40])
 base_motor = Motor(Port.C, Direction.COUNTERCLOCKWISE, [12, 36])
 
 # Hastighetskrav
-elbow_motor.control.limits(speed=60, acceleration=120)#wtf är detta??? gör om förfan //Johan
+elbow_motor.control.limits(speed=60, acceleration=120)  # wtf är detta??? gör om förfan //Johan
 base_motor.control.limits(speed=60, acceleration=120)
 
 # Tar fram startpunkten av basen i förhållande till switch
@@ -28,10 +26,10 @@ base_switch = TouchSensor(Port.S1)
 # Färg sensorn i armen
 elbow_sensor = ColorSensor(Port.S2)
 
+
 # def say_color():
 #     """this functions tells the color of the box."""
 #     ev3.speaker.say(elbow_sensor.color())
-
 
 
 def calibration():
@@ -72,16 +70,15 @@ def robot_pick(position):
     gripper_motor.run_until_stalled(200, then=Stop.HOLD, duty_limit=50)
 
     elbow_motor.run_target(30, 0)
-    # say_color()
 
 
 def robot_release(position):
     base_motor.run_target(60, position)
-    
+
     elbow_motor.run_target(30, -40)
-    
+
     gripper_motor.run_target(200, -90)
-    
+
     elbow_motor.run_target(60, 0)
 
 
@@ -96,9 +93,9 @@ def setup_locations():
     while not base_switch.pressed():
         wait(10)
 
-    while setup == True:
+    while setup:
         base_motor.stop()
-        if ev3.buttons.pressed() != []:
+        if not ev3.buttons.pressed():
             btn = str(ev3.buttons.pressed()[0])
             if "CENTER" in btn:
                 pickup = base_motor.angle()
@@ -123,16 +120,16 @@ def setup_locations():
 
 
 def identify_color(pickup):
-    current_color = elbow_sensor.color()
-    string_color = str(current_color)
-    final_color = string_color[6:]
+    current_color = str(elbow_sensor.color())[6:]
+    ev3.speaker.say(current_color)
 
-    if current_color == None or current_color == 'BLACK':
-       robot_pick(pickup)
-       identify_color(pickup)
-        
-    print(final_color)
-    return final_color
+    while current_color is None or current_color == 'BLACK':
+        robot_pick(pickup)
+        current_color = str(elbow_sensor.color())[6:0]
+        ev3.speaker.say("No color detected")
+
+    print(current_color)
+    return current_color
 
 
 def setup_colors():
@@ -144,7 +141,7 @@ def setup_colors():
         ev3.screen.draw_text(40, 90, color)
         wait(500)
         while True:
-            if ev3.buttons.pressed() != []:
+            if not ev3.buttons.pressed():
                 btn = str(ev3.buttons.pressed()[0])
                 if "UP" in btn:
                     c_1.append(color)
@@ -170,12 +167,11 @@ def main():
     pickup, dropoff, dropoff_2 = setup_locations()
     color_list = setup_colors()
     while True:
-        print("Hejsan")
         robot_pick(pickup)
         current_color = identify_color(pickup)
         wait(500)
         sorted_release(color_list, current_color, dropoff, dropoff_2)
-        if ev3.buttons.pressed() != []:
+        if not ev3.buttons.pressed():
             btn = str(ev3.buttons.pressed()[0])
             if "UP" in btn:
                 ev3.speaker.beep()
@@ -183,7 +179,7 @@ def main():
                 pickup, dropoff, dropoff_2 = setup_locations()
             elif "DOWN" in btn:
                 ev3.speaker.beep()
-                wait(2000)                
+                wait(2000)
                 color_list = setup_colors()
 
 
