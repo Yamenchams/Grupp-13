@@ -71,7 +71,10 @@ def left_or_right(position):
 
 
 def robot_move(part, speed, position):
-    part.run(speed * left_or_right(position))
+    if part == base_motor:
+        part.run(speed * left_or_right(position))
+    else:
+        part.run(speed)
     robot_hold = False
 
     while not part.angle() == position:
