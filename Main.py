@@ -67,12 +67,13 @@ def calibration():
 
 
 def robot_move(position):
-    while base_motor.angle() > position:
-        base_motor.run(60)
+    while base_motor.angle() >= position:
+        base_motor.run(-60)
         if ev3.buttons.pressed() != []:
             btn = str(ev3.buttons.pressed()[0])
             if "CENTER" in btn:
                 base_motor.hold()
+
 
 
 def robot_pick(position):
