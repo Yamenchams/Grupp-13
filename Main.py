@@ -25,13 +25,10 @@ base_switch = TouchSensor(Port.S1)
 # Färg sensorn i armen
 elbow_sensor = ColorSensor(Port.S2)
 
-<<<<<<< HEAD
 def say_color():
     """this functions tells the color of the box."""
     color = str(elbow_sensor.color())
     ev3.speaker.say(color[7:])
-=======
->>>>>>> 8a4f4ef83e88a410adfa47ac8a9f0ca6b793b86e
 
 # def say_color():
 #     """this functions tells the color of the box."""
@@ -67,8 +64,10 @@ def calibration():
 
 
 def robot_move(position):
-    while base_motor.angle() >= position:
-        base_motor.run(-60)
+    base_motor.run(-60)
+    
+    while base_motor.angle() >= position or not base_switch.pressed():
+        wait(10)
         if ev3.buttons.pressed() != []:
             btn = str(ev3.buttons.pressed()[0])
             if "CENTER" in btn:
