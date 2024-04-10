@@ -63,9 +63,15 @@ def calibration():
         wait(100)
 
 
+def left_or_right(position):
+    if position > base_motor.angle():
+        return 1
+    else:
+        return -1
+
+
 def robot_move(position):
-    if position >
-    base_motor.run(-60)
+    base_motor.run(60 * left_or_right(position))
 
     while not base_motor.angle() == position:
         if ev3.buttons.pressed() != []:
@@ -90,7 +96,7 @@ def robot_pick(position):
 
 
 def robot_release(position):
-    base_motor.run_target(60, position)
+    robot_move(position)
 
     elbow_motor.run_target(30, -40)
 
