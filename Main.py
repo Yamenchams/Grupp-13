@@ -157,7 +157,6 @@ def identify_color():
         ev3.speaker.say("No color detected")
         return None
     else:
-        ev3.speaker.say(current_color)
         return current_color
 
 
