@@ -85,6 +85,7 @@ def robot_move(position):
             elif "CENTER" in btn:
                 wait(200)
                 base_motor.run(60 * left_or_right(position))
+                robot_hold = False
         print(ev3.buttons.pressed())
         wait(10)
     base_motor.hold()
