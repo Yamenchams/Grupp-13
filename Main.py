@@ -4,7 +4,6 @@ from pybricks.ev3devices import (Motor, TouchSensor, ColorSensor, InfraredSensor
 from pybricks.parameters import Port, Stop, Direction
 from pybricks.tools import wait, StopWatch, DataLog
 
-
 ev3 = EV3Brick()
 
 # Motorn för klon
@@ -184,4 +183,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
