@@ -166,7 +166,7 @@ def main():
     color_list = setup_colors()
     while True:
         robot_pick(pickup)
-        current_color = identify_color(pickup)
+        current_color = identify_color()
         wait(500)
         if current_color is not None:
             sorted_release(color_list, current_color, dropoff, dropoff_2)
