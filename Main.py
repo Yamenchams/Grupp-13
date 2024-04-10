@@ -3,7 +3,8 @@ from pybricks.hubs import EV3Brick
 from pybricks.ev3devices import (Motor, TouchSensor, ColorSensor, InfraredSensor, UltrasonicSensor, GyroSensor)
 from pybricks.parameters import Port, Stop, Direction
 from pybricks.tools import wait, StopWatch, DataLog
-
+import time
+import datetime
 ev3 = EV3Brick()
 
 # Motorn för klon
@@ -25,14 +26,6 @@ base_switch = TouchSensor(Port.S1)
 # Färg sensorn i armen
 elbow_sensor = ColorSensor(Port.S2)
 
-def say_color():
-    """this functions tells the color of the box."""
-    color = str(elbow_sensor.color())
-    ev3.speaker.say(color[7:])
-
-# def say_color():
-#     """this functions tells the color of the box."""
-#     ev3.speaker.say(elbow_sensor.color())
 
 
 def calibration():
@@ -197,7 +190,10 @@ def main():
     calibration()
     pickup, dropoff, dropoff_2 = setup_locations()
     color_list = setup_colors()
-    while True:
+    current_time = datetime.datetime.now().time()
+    start_time = datetime.time(14, 0)
+    end_time = datetime.time(14, 18)
+    while start_time <= current_time <= end_time:
         robot_pick(pickup)
         current_color = identify_color()
         wait(500)
@@ -213,6 +209,7 @@ def main():
                 ev3.speaker.beep()
                 wait(2000)
                 color_list = setup_colors()
+        current_time = datetime.datetime.now().time()
 
 
 if __name__ == "__main__":
