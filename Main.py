@@ -59,10 +59,15 @@ def calibration():
         wait(100)
 
 
+def robot_move(position):
+    while base_motor.angle() < position:
+        base_motor.run(60)
+
+
 def robot_pick(position):
     gripper_motor.run_target(200, -90)
 
-    base_motor.run_target(60, position)
+    robot_move(position)
 
     elbow_motor.run_target(60, -40)
 
