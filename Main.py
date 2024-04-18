@@ -65,7 +65,8 @@ def left_or_right(position):
 
 def robot_move(part, speed, position):
     if "C" in str(part):
-        part.run(speed * left_or_right(position))
+        speed = (speed * left_or_right(position))
+        part.run(speed)
     else:
         part.run(speed)
     robot_hold = False
