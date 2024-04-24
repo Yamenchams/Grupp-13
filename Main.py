@@ -17,7 +17,7 @@ elbow_motor = Motor(Port.B, Direction.COUNTERCLOCKWISE, [8, 40])
 base_motor = Motor(Port.C, Direction.COUNTERCLOCKWISE, [12, 36])
 
 # Hastighetskrav
-elbow_motor.control.limits(speed=60, acceleration=120)  # wtf är detta??? gör om förfan //Johan
+elbow_motor.control.limits(speed=60, acceleration=120)  # wtf är detta??? gör om för fan //Johan
 base_motor.control.limits(speed=60, acceleration=120)
 
 # Tar fram startpunkten av basen i förhållande till switch
@@ -199,6 +199,7 @@ def main():
     calibration()
     pickup, dropoff, dropoff_2 = setup_locations()
     color_list = setup_colors()
+
     while True:
         robot_pick(pickup)
         current_color = identify_color()
