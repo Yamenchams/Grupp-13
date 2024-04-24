@@ -17,7 +17,7 @@ elbow_motor = Motor(Port.B, Direction.COUNTERCLOCKWISE, [8, 40])
 base_motor = Motor(Port.C, Direction.COUNTERCLOCKWISE, [12, 36])
 
 # Hastighetskrav
-elbow_motor.control.limits(speed=60, acceleration=120)  # wtf är detta??? gör om för fan //Johan
+elbow_motor.control.limits(speed=60, acceleration=120)  # wtf är detta??? gör om förfan //Johan
 base_motor.control.limits(speed=60, acceleration=120)
 
 # Tar fram startpunkten av basen i förhållande till switch
@@ -77,6 +77,7 @@ def robot_move(part, speed, position):
     print(part)
 
     while not part.angle() == position:
+        print(change_phase)
         if ev3.buttons.pressed() != []:
             btn = str(ev3.buttons.pressed()[0])
             if "CENTER" in btn and robot_hold is False:
@@ -158,7 +159,6 @@ def identify_color():
     current_color = str(elbow_sensor.color())[6:]
     print(current_color)
     if current_color is None or current_color == 'BLACK':
-        ev3.speaker.say("No color detected")
         return None
     else:
         return current_color
@@ -169,8 +169,10 @@ def setup_colors():
     c_1 = []
     c_2 = []
     for color in colors:
-        ev3.screen.draw_text(10, 50, "Arrow up for DZone 1, Arrow down for DZone 2")
-        ev3.screen.draw_text(40, 90, color)
+        ev3.screen.clear()
+        ev3.screen.draw_text(10, 10, "^; drop off 1")
+        ev3.screen.draw_text(10, 50, "v; drop off 2")
+        ev3.screen.draw_text(50, 90, colors)
         wait(500)
         while True:
             if ev3.buttons.pressed() != []:
@@ -181,7 +183,6 @@ def setup_colors():
                 elif "DOWN" in btn:
                     c_2.append(color)
                     break
-        ev3.screen.clear()
     return [c_1, c_2]
 
 
@@ -199,7 +200,7 @@ def main():
     calibration()
     pickup, dropoff, dropoff_2 = setup_locations()
     color_list = setup_colors()
-
+    wait(500)
     while True:
         robot_pick(pickup)
         current_color = identify_color()
@@ -211,11 +212,13 @@ def main():
             wait(2000)
             pickup, dropoff, dropoff_2 = setup_locations()
             change_phase = None
+            wait(500)
         elif change_phase == "COLOR":
             ev3.speaker.beep()
             wait(2000)
             color_list = setup_colors()
             change_phase = None
+            wait(500)
 
 
 if __name__ == "__main__":
