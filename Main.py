@@ -3,6 +3,7 @@ from pybricks.hubs import EV3Brick
 from pybricks.ev3devices import (Motor, TouchSensor, ColorSensor, InfraredSensor, UltrasonicSensor, GyroSensor)
 from pybricks.parameters import Port, Stop, Direction
 from pybricks.tools import wait, StopWatch, DataLog
+from time_script import get_current_time
 # import time
 # import datetime
 ev3 = EV3Brick()
@@ -215,6 +216,7 @@ def sorted_release(color_list, current_color, dropoff, dropoff_2):
 
 
 def main():
+    print(get_current_time())
     global change_phase
     calibration()
     pickup, dropoff, dropoff_2 = setup_locations()
