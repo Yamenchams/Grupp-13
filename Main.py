@@ -26,6 +26,8 @@ base_switch = TouchSensor(Port.S1)
 # Färg sensorn i armen
 elbow_sensor = ColorSensor(Port.S2)
 
+# Change phases
+change_phase = None
 
 
 def calibration():
@@ -64,6 +66,7 @@ def left_or_right(position):
 
 
 def robot_move(part, speed, position):
+    global change_phase
     if "C" in str(part):
         speed = (speed * left_or_right(position))
         part.run(speed)
@@ -84,6 +87,10 @@ def robot_move(part, speed, position):
                 wait(200)
                 part.run(speed)
                 robot_hold = False
+            elif "UP" in btn:
+                change_phase = "ZONE"
+            elif "DOWN" in btn:
+                change_phase = "COLOR"
         wait(10)
     part.hold()
 
@@ -188,30 +195,26 @@ def sorted_release(color_list, current_color, dropoff, dropoff_2):
 
 
 def main():
+    global change_phase
     calibration()
     pickup, dropoff, dropoff_2 = setup_locations()
     color_list = setup_colors()
-    # current_time = datetime.datetime.now().time()
-    # start_time = datetime.time(14, 0)
-    # end_time = datetime.time(14, 18)
-    # while start_time <= current_time <= end_time:
     while True:
         robot_pick(pickup)
         current_color = identify_color()
         wait(500)
         if current_color is not None:
             sorted_release(color_list, current_color, dropoff, dropoff_2)
-        if ev3.buttons.pressed() != []:
-            btn = str(ev3.buttons.pressed()[0])
-            if "UP" in btn:
-                ev3.speaker.beep()
-                wait(2000)
-                pickup, dropoff, dropoff_2 = setup_locations()
-            elif "DOWN" in btn:
-                ev3.speaker.beep()
-                wait(2000)
-                color_list = setup_colors()
-        # current_time = datetime.datetime.now().time()
+        if change_phase == "ZONE":
+            ev3.speaker.beep()
+            wait(2000)
+            pickup, dropoff, dropoff_2 = setup_locations()
+            change_phase = None
+        elif change_phase == "COLOR":
+            ev3.speaker.beep()
+            wait(2000)
+            color_list = setup_colors()
+            change_phase = None
 
 
 if __name__ == "__main__":
