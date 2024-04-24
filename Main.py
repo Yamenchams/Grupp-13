@@ -30,6 +30,13 @@ elbow_sensor = ColorSensor(Port.S2)
 change_phase = None
 
 
+def color_phase_menu(colors):
+    ev3.screen.clear()
+    ev3.screen.draw_text(10, 10, "^; drop off 1")
+    ev3.screen.draw_text(10, 50, "v; drop off 2")
+    ev3.screen.draw_text(50, 90, colors)
+
+
 def calibration():
     # Kalibrera basens startposition
     base_motor.run(-60)
