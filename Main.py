@@ -32,9 +32,24 @@ change_phase = None
 
 def color_phase_menu(colors):
     ev3.screen.clear()
-    ev3.screen.draw_text(10, 10, "^; drop off 1")
-    ev3.screen.draw_text(10, 50, "v; drop off 2")
+    ev3.screen.draw_text(10, 10, "^: drop off 1")
+    ev3.screen.draw_text(10, 50, "v: drop off 2")
     ev3.screen.draw_text(50, 90, colors)
+
+
+def zone_phase_menu():
+    ev3.screen.clear()
+    ev3.screen.draw_text(10, 10, "^: drop off 1")
+    ev3.screen.draw_text(10, 30, "^ x 2: drop off 2")
+    ev3.screen.draw_text(10, 50, "O: pickup")
+    ev3.screen.draw_text(10, 70, "v: when done")
+
+
+def main_menu():
+    ev3.screen.clear()
+    ev3.screen.draw_text(10, 10, "^: change zones")
+    ev3.screen.draw_text(10, 30, "v: change colors")
+    ev3.screen.draw_text(10, 50, "O: pause")
 
 
 def calibration():
@@ -131,7 +146,7 @@ def setup_locations():
     dropoff = None
     dropoff_2 = None
     zones = 0
-
+    zone_phase_menu()
     base_motor.run(-60)
     while not base_switch.pressed():
         wait(10)
@@ -176,10 +191,7 @@ def setup_colors():
     c_1 = []
     c_2 = []
     for color in colors:
-        ev3.screen.clear()
-        ev3.screen.draw_text(10, 10, "^; drop off 1")
-        ev3.screen.draw_text(10, 50, "v; drop off 2")
-        ev3.screen.draw_text(50, 90, colors)
+        color_phase_menu(color)
         wait(500)
         while True:
             if ev3.buttons.pressed() != []:
@@ -209,6 +221,7 @@ def main():
     color_list = setup_colors()
     wait(500)
     while True:
+        main_menu()
         robot_pick(pickup)
         current_color = identify_color()
         wait(500)
