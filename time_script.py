@@ -10,7 +10,7 @@ def get_current_time():
 
     # Calculate new hour with wrap-around at 24
     # Minutes wrap around at 60, also adjust hours if minutes exceed 60
-    new_hour = (utc_time.tm_hour + hour_offset + (utc_time.tm_min + min_offset) // 60) % 24
+    new_hour = (utc_time.tm_hour + hour_offset + (utc_time.tm_min + min_offset)) % 24
     new_minute = (utc_time.tm_min + min_offset) % 60
 
     # Ensure the hours, minutes, and seconds are two digits
@@ -20,6 +20,14 @@ def get_current_time():
     
     # Concatenate the time parts into a formatted time string
     formatted_time = hour_str + ':' + min_str + ':' + sec_str
+    print(formatted_time)
     return formatted_time
 
-# Print the current time in Sweden assuming C
+
+def change_time(current_time, diff, time_type):
+    if time_type == 'hour':
+        hours = int(current_time[:1]) + diff
+        return hours + current_time[2:]
+    elif time_type == 'minute':
+        minutes = int(current_time[:1]) + diff
+        return minutes + current_time[2:]

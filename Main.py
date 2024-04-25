@@ -3,7 +3,7 @@ from pybricks.hubs import EV3Brick
 from pybricks.ev3devices import (Motor, TouchSensor, ColorSensor, InfraredSensor, UltrasonicSensor, GyroSensor)
 from pybricks.parameters import Port, Stop, Direction
 from pybricks.tools import wait, StopWatch, DataLog
-from time_script import get_current_time
+from time_script import get_current_time, change_time
 ev3 = EV3Brick()
 
 # Motorn för klon
@@ -28,9 +28,6 @@ elbow_sensor = ColorSensor(Port.S2)
 # Change phases
 change_phase = None
 
-# Current time
-current_time = get_current_time()
-
 
 def color_phase_menu(colors):
     ev3.screen.clear()
@@ -53,6 +50,12 @@ def main_menu(color):
     ev3.screen.draw_text(10, 30, "v: change colors")
     ev3.screen.draw_text(10, 50, "O: pause")
     ev3.screen.draw_text(50, 90, color)
+
+
+def time_menu(current_time, time_type):
+    ev3.screen.clear()
+    ev3.screen.draw_text(30, 10, "Change" + time_type)
+    ev3.screen.draw_text(65, 65, current_time)
 
 
 def calibration():
@@ -206,6 +209,26 @@ def setup_colors():
                     c_2.append(color)
                     break
     return [c_1, c_2]
+
+
+def setup_time():
+    start_time = get_current_time()[:-3]
+    end_time = get_current_time()[:-3]
+    times = [start_time, end_time]
+    time_frames = ["hour", "minute"]
+    for time_stamp in times:
+        for time_type in time_frames:
+            while True:
+                time_menu(time_stamp, time_type)
+                if ev3.buttons.pressed() != []:
+                    btn = str(ev3.buttons.pressed()[0])
+                    if "UP" in btn:
+                        time_stamp = change_time(time_stamp, 1, time_type)
+                    elif "DOWN" in btn:
+                        time_stamp = change_time(time_stamp, -1, time_type)
+                    elif "CENTER" in btn:
+                        break
+    return times
 
 
 def sorted_release(color_list, current_color, dropoff, dropoff_2):
