@@ -225,6 +225,7 @@ def setup_time():
         for time_type in time_types:
             time_menu(":".join(time_stamp), time_type)
             jonnyBaravo = True
+            wait(500)
             while jonnyBaravo:
                 if ev3.buttons.pressed() != []:
                     btn = str(ev3.buttons.pressed()[0])
