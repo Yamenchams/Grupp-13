@@ -54,7 +54,7 @@ def main_menu(color):
 
 def time_menu(current_time, time_type):
     ev3.screen.clear()
-    ev3.screen.draw_text(30, 10, "Change" + time_type)
+    ev3.screen.draw_text(30, 10, "Change " + time_type)
     ev3.screen.draw_text(40, 65, current_time)
 
 
@@ -219,7 +219,7 @@ def setup_time():
     end_time = get_current_time().split(":")
     times = [start_time, end_time]
     final_times = []
-    time_types = ["hour", "minute", "seconds"]
+    time_types = ["Hour", "Minute", "Seconds"]
     for time_stamp in times:
         index = 0
         for time_type in time_types:
