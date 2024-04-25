@@ -224,11 +224,12 @@ def main():
     calibration()
     pickup, dropoff, dropoff_2 = setup_locations()
     color_list = setup_colors()
+    main_menu(current_color)
     wait(500)
     while True:
-        main_menu(current_color)
         robot_pick(pickup)
         current_color = identify_color()
+        main_menu(current_color)
         wait(500)
         if current_color is not None:
             sorted_release(color_list, current_color, dropoff, dropoff_2)
