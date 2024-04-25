@@ -55,7 +55,7 @@ def main_menu(color):
 def time_menu(current_time, time_type):
     ev3.screen.clear()
     ev3.screen.draw_text(30, 10, "Change" + time_type)
-    ev3.screen.draw_text(65, 65, current_time)
+    ev3.screen.draw_text(40, 65, current_time)
 
 
 def calibration():
@@ -228,11 +228,11 @@ def setup_time():
                 if ev3.buttons.pressed() != []:
                     btn = str(ev3.buttons.pressed()[0])
                     if "UP" in btn:
-                        time_stamp = str(int(time_stamp[index]) + 1)
+                        time_stamp[index] = str(int(time_stamp[index]) + 1)
                         wait(500)
                         time_menu(":".join(time_stamp), time_type)
                     elif "DOWN" in btn:
-                        time_stamp = str(int(time_stamp[index]) - 1)
+                        time_stamp[index] = str(int(time_stamp[index]) - 1)
                         wait(500)
                         time_menu(":".join(time_stamp), time_type)
                     elif "CENTER" in btn:
