@@ -48,7 +48,8 @@ def main_menu(color):
     ev3.screen.clear()
     ev3.screen.draw_text(10, 10, "^: change zones")
     ev3.screen.draw_text(10, 30, "v: change colors")
-    ev3.screen.draw_text(10, 50, "O: pause")
+    ev3.screen.draw_text(10, 50, "<: change times")
+    ev3.screen.draw_text(10, 70, "O: pause")
     ev3.screen.draw_text(50, 90, color)
 
 
@@ -120,6 +121,8 @@ def robot_move(part, speed, position):
                 change_phase = "ZONE"
             elif "DOWN" in btn:
                 change_phase = "COLOR"
+            elif "LEFT" in btn:
+                change_phase = "TIME"
         wait(10)
     part.hold()
 
@@ -282,6 +285,12 @@ def main():
             ev3.speaker.beep()
             wait(2000)
             color_list = setup_colors()
+            change_phase = None
+            wait(500)
+        elif change_phase == "TIME":
+            ev3.speaker.beep()
+            wait(2000)
+            starting_time, ending_time = setup_time()
             change_phase = None
             wait(500)
 
