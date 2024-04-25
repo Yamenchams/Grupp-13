@@ -238,6 +238,8 @@ def setup_time():
                         time_menu(":".join(time_stamp), time_type)
                     elif "CENTER" in btn:
                         jonnyBaravo = False
+                        wait(1000)
+
             index += 1
         final_times.append(":".join(time_stamp))
     return final_times
