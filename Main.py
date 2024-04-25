@@ -221,21 +221,23 @@ def setup_time():
     final_times = []
     time_types = ["hour", "minute", "seconds"]
     for time_stamp in times:
+        index = 0
         for time_type in time_types:
             time_menu(":".join(time_stamp), time_type)
             while True:
                 if ev3.buttons.pressed() != []:
                     btn = str(ev3.buttons.pressed()[0])
                     if "UP" in btn:
-                        time_stamp = str(int(time_stamp[0]) + 1)
+                        time_stamp = str(int(time_stamp[index]) + 1)
                         wait(500)
                         time_menu(":".join(time_stamp), time_type)
                     elif "DOWN" in btn:
-                        time_stamp = str(int(time_stamp[0]) - 1)
+                        time_stamp = str(int(time_stamp[index]) - 1)
                         wait(500)
                         time_menu(":".join(time_stamp), time_type)
                     elif "CENTER" in btn:
                         break
+            index += 1
         final_times.append(":".join(time_stamp))
     return final_times
 
