@@ -5,8 +5,8 @@ def get_current_time():
     utc_time = time.gmtime()
     
     # Assume CEST for now, which is UTC+2
-    hour_offset = -8
-    min_offset = 12
+    hour_offset = -11
+    min_offset = 34
 
     # Calculate new hour with wrap-around at 24
     # Minutes wrap around at 60, also adjust hours if minutes exceed 60
@@ -26,8 +26,8 @@ def get_current_time():
 
 def change_time(current_time, diff, time_type):
     if time_type == 'hour':
-        hours = int(current_time[:1]) + diff
-        return hours + current_time[2:]
+        hours = int(current_time[:2]) + diff
+        return str(hours) + current_time[2:]
     elif time_type == 'minute':
-        minutes = int(current_time[:1]) + diff
-        return minutes + current_time[2:]
+        minutes = int(current_time[3:]) + diff
+        return str(minutes) + current_time[2:]
