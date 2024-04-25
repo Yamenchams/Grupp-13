@@ -176,7 +176,7 @@ def setup_locations():
                 if dropoff != None and dropoff_2 != None and pickup != None: #jonnybravo har kokat här
                     setup = False
                 else:
-                    ev3.speaker.say("You need to register 2 pickupzones")
+                    ev3.speaker.say("You need to register 2 droppoff zones and one pickup zone")
             elif "LEFT" in btn:
                 base_motor.run(60)
                 wait(400)
