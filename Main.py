@@ -212,10 +212,11 @@ def setup_colors():
 
 
 def setup_time():
-    start_time = get_current_time()[:-3]
-    end_time = get_current_time()[:-3]
+    start_time = get_current_time().split(":")
+    end_time = get_current_time().split(":")
     times = [start_time, end_time]
-    time_types = ["hour", "minute"]
+    final_times = []
+    time_types = ["hour", "minute", "seconds"]
     for time_stamp in times:
         for time_type in time_types:
             time_menu(time_stamp, time_type)
@@ -223,14 +224,17 @@ def setup_time():
                 if ev3.buttons.pressed() != []:
                     btn = str(ev3.buttons.pressed()[0])
                     if "UP" in btn:
-                        time_stamp = change_time(time_stamp, 1, time_type)
+                        time_stamp = time_stamp[0] + 1
+                        wait(500)
                         time_menu(time_stamp, time_type)
                     elif "DOWN" in btn:
-                        time_stamp = change_time(time_stamp, -1, time_type)
+                        time_stamp = time_stamp[0] - 1
+                        wait(500)
                         time_menu(time_stamp, time_type)
                     elif "CENTER" in btn:
                         break
-    return times
+        final_times.append(":".join(time_stamp))
+    return final_times
 
 
 def sorted_release(color_list, current_color, dropoff, dropoff_2):

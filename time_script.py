@@ -22,12 +22,3 @@ def get_current_time():
     formatted_time = hour_str + ':' + min_str + ':' + sec_str
     print(formatted_time)
     return formatted_time
-
-
-def change_time(current_time, diff, time_type):
-    if time_type == 'hour':
-        hours = int(current_time[:2]) + diff
-        return str(hours) + current_time[2:]
-    elif time_type == 'minute':
-        minutes = int(current_time[3:]) + diff
-        return str(minutes) + current_time[2:]
