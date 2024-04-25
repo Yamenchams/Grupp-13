@@ -227,11 +227,11 @@ def setup_time():
                 if ev3.buttons.pressed() != []:
                     btn = str(ev3.buttons.pressed()[0])
                     if "UP" in btn:
-                        time_stamp = time_stamp[0] + 1
+                        time_stamp = str(int(time_stamp[0]) + 1)
                         wait(500)
                         time_menu(time_stamp, time_type)
                     elif "DOWN" in btn:
-                        time_stamp = time_stamp[0] - 1
+                        time_stamp = str(int(time_stamp[0]) - 1)
                         wait(500)
                         time_menu(time_stamp, time_type)
                     elif "CENTER" in btn:
