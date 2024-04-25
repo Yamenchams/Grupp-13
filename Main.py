@@ -247,6 +247,7 @@ def main():
     calibration()
     pickup, dropoff, dropoff_2 = setup_locations()
     color_list = setup_colors()
+    starting_time, ending_time = setup_time()
     main_menu(current_color)
     wait(500)
     while True:
