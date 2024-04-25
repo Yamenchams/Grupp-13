@@ -173,7 +173,7 @@ def setup_locations():
                 print("Second zone registered")
                 wait(500)
             elif "DOWN" in btn:
-                if dropoff != None and dropoff_2 != None: #jonnybravo har kokat här
+                if dropoff != None and dropoff_2 != None and pickup != None: #jonnybravo har kokat här
                     setup = False
                 else:
                     ev3.speaker.say("You need to register 2 pickupzones")
