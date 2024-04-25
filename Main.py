@@ -3,7 +3,7 @@ from pybricks.hubs import EV3Brick
 from pybricks.ev3devices import (Motor, TouchSensor, ColorSensor, InfraredSensor, UltrasonicSensor, GyroSensor)
 from pybricks.parameters import Port, Stop, Direction
 from pybricks.tools import wait, StopWatch, DataLog
-from time_script import get_current_time, change_time
+from time_script import get_current_time
 ev3 = EV3Brick()
 
 # Motorn för klon
@@ -128,8 +128,7 @@ def robot_pick(position):
     gripper_motor.run_target(200, -90)
 
     robot_move(base_motor, 60, position)
-    robot_move(position)
-
+    
     robot_move(elbow_motor, -60, -40)
 
     gripper_motor.run_until_stalled(200, then=Stop.HOLD, duty_limit=50)
