@@ -268,7 +268,7 @@ def main():
     starting_time, ending_time = setup_time()
     main_menu(current_color)
     wait(500)
-    while True:
+    while starting_time < get_current_time() < ending_time:
         robot_pick(pickup)
         current_color = identify_color()
         main_menu(current_color)
