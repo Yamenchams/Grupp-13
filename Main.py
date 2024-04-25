@@ -128,6 +128,7 @@ def robot_pick(position):
     gripper_motor.run_target(200, -90)
 
     robot_move(base_motor, 60, position)
+    robot_move(position)
 
     robot_move(elbow_motor, -60, -40)
 
