@@ -268,31 +268,33 @@ def main():
     starting_time, ending_time = setup_time()
     main_menu(current_color)
     wait(500)
-    while starting_time < get_current_time() < ending_time:
-        robot_pick(pickup)
-        current_color = identify_color()
-        main_menu(current_color)
+    while True:
         wait(500)
-        if current_color is not None:
-            sorted_release(color_list, current_color, dropoff, dropoff_2)
-        if change_phase == "ZONE":
-            ev3.speaker.beep()
-            wait(2000)
-            pickup, dropoff, dropoff_2 = setup_locations()
-            change_phase = None
+        while starting_time < get_current_time() < ending_time:
+            robot_pick(pickup)
+            current_color = identify_color()
+            main_menu(current_color)
             wait(500)
-        elif change_phase == "COLOR":
-            ev3.speaker.beep()
-            wait(2000)
-            color_list = setup_colors()
-            change_phase = None
-            wait(500)
-        elif change_phase == "TIME":
-            ev3.speaker.beep()
-            wait(2000)
-            starting_time, ending_time = setup_time()
-            change_phase = None
-            wait(500)
+            if current_color is not None:
+                sorted_release(color_list, current_color, dropoff, dropoff_2)
+            if change_phase == "ZONE":
+                ev3.speaker.beep()
+                wait(2000)
+                pickup, dropoff, dropoff_2 = setup_locations()
+                change_phase = None
+                wait(500)
+            elif change_phase == "COLOR":
+                ev3.speaker.beep()
+                wait(2000)
+                color_list = setup_colors()
+                change_phase = None
+                wait(500)
+            elif change_phase == "TIME":
+                ev3.speaker.beep()
+                wait(2000)
+                starting_time, ending_time = setup_time()
+                change_phase = None
+                wait(500)
 
 
 if __name__ == "__main__":
