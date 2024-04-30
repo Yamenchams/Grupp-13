@@ -272,11 +272,11 @@ def main():
         if starting_time < get_current_time() < ending_time:
             robot_pick(pickup)
             current_color = identify_color()
-            main_menu(current_color)
             wait(500)
             if current_color is not None:
                 sorted_release(color_list, current_color, dropoff, dropoff_2)
         else:
+            main_menu(current_color)
             if ev3.buttons.pressed() != []:
                 btn = str(ev3.buttons.pressed()[0])
                 if "UP" in btn:
