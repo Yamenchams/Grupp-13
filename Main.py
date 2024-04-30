@@ -227,9 +227,9 @@ def setup_time():
         index = 0
         for time_type in time_types:
             time_menu(":".join(time_stamp), time_type)
-            jonnyBaravo = True
+            jonnyBravo = True
             wait(500)
-            while jonnyBaravo:
+            while jonnyBravo:
                 if ev3.buttons.pressed() != []:
                     btn = str(ev3.buttons.pressed()[0])
                     if "UP" in btn:
@@ -241,7 +241,7 @@ def setup_time():
                         wait(500)
                         time_menu(":".join(time_stamp), time_type)
                     elif "CENTER" in btn:
-                        jonnyBaravo = False
+                        jonnyBravo = False
                         wait(1000)
 
             index += 1
