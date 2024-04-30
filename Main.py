@@ -268,13 +268,23 @@ def main():
     starting_time, ending_time = setup_time()
     main_menu(current_color)
     wait(500)
-    while starting_time < get_current_time() < ending_time:
-        robot_pick(pickup)
-        current_color = identify_color()
-        main_menu(current_color)
-        wait(500)
-        if current_color is not None:
-            sorted_release(color_list, current_color, dropoff, dropoff_2)
+    while True:
+        if starting_time < get_current_time() < ending_time:
+            robot_pick(pickup)
+            current_color = identify_color()
+            main_menu(current_color)
+            wait(500)
+            if current_color is not None:
+                sorted_release(color_list, current_color, dropoff, dropoff_2)
+        else:
+            if ev3.buttons.pressed() != []:
+                btn = str(ev3.buttons.pressed()[0])
+                if "UP" in btn:
+                    change_phase = "ZONE"
+                elif "DOWN" in btn:
+                    change_phase = "COLOR"
+                elif "LEFT" in btn:
+                    change_phase = "TIME"
         if change_phase == "ZONE":
             ev3.speaker.beep()
             wait(2000)
