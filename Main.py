@@ -69,7 +69,7 @@ def time_menu(current_time, time_type, time_stamp_index):
         witch_time = "Ending Time"
     ev3.screen.clear()
     ev3.screen.draw_text(30, 10, "Change " + time_type)
-    ev3.screen.draw_text(30, 10, "For:", witch_time)
+    ev3.screen.draw_text(30, 30, witch_time)
     ev3.screen.draw_text(40, 65, current_time)
 
 
@@ -250,11 +250,11 @@ def setup_time():
                     if "UP" in btn:
                         time_stamp[index] = custom_zfill(str(int(time_stamp[index]) + 1), 2)
                         wait(500)
-                        time_menu(":".join(time_stamp), time_type)
+                        time_menu(":".join(time_stamp), time_type, time_stamp_index)
                     elif "DOWN" in btn:
                         time_stamp[index] = custom_zfill(str(int(time_stamp[index]) - 1), 2)
                         wait(500)
-                        time_menu(":".join(time_stamp), time_type)
+                        time_menu(":".join(time_stamp), time_type, time_stamp_index)
                     elif "CENTER" in btn:
                         jonnyBravo = False
                         wait(1000)
@@ -294,7 +294,6 @@ def main():
             if current_color is not None:
                 sorted_release(color_list, current_color, dropoff, dropoff_2)
         else:
-            main_menu(current_color)
             if ev3.buttons.pressed() != []:
                 btn = str(ev3.buttons.pressed()[0])
                 if "UP" in btn:
