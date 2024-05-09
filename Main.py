@@ -28,6 +28,7 @@ elbow_sensor = ColorSensor(Port.S2)
 # Change phases
 change_phase = None
 
+
 # Egen funktion till zfill för pybrick inte kan använda zfill
 def custom_zfill(string, width):
     if len(string) >= width:
@@ -61,9 +62,14 @@ def main_menu(color):
     ev3.screen.draw_text(50, 90, color)
 
 
-def time_menu(current_time, time_type):
+def time_menu(current_time, time_type, time_stamp_index):
+    if time_stamp_index == 0:
+        witch_time = "Starting Time"
+    else:
+        witch_time = "Ending Time"
     ev3.screen.clear()
     ev3.screen.draw_text(30, 10, "Change " + time_type)
+    ev3.screen.draw_text(30, 10, "For:", witch_time)
     ev3.screen.draw_text(40, 65, current_time)
 
 
@@ -231,10 +237,11 @@ def setup_time():
     times = [start_time, end_time]
     final_times = []
     time_types = ["Hour", "Minute", "Seconds"]
+    time_stamp_index = 0
     for time_stamp in times:
         index = 0
         for time_type in time_types:
-            time_menu(":".join(time_stamp), time_type)
+            time_menu(":".join(time_stamp), time_type, time_stamp_index)
             jonnyBravo = True
             wait(500)
             while jonnyBravo:
@@ -253,6 +260,7 @@ def setup_time():
                         wait(1000)
 
             index += 1
+        time_stamp_index += 1
         final_times.append(":".join(time_stamp))
     return final_times
 
