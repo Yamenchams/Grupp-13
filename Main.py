@@ -233,11 +233,11 @@ def setup_time():
                 if ev3.buttons.pressed() != []:
                     btn = str(ev3.buttons.pressed()[0])
                     if "UP" in btn:
-                        time_stamp[index] = str(int(time_stamp[index]) + 1)
+                        time_stamp[index] = str(int(time_stamp[index]) + 1).zfill(2)
                         wait(500)
                         time_menu(":".join(time_stamp), time_type)
                     elif "DOWN" in btn:
-                        time_stamp[index] = str(int(time_stamp[index]) - 1)
+                        time_stamp[index] = str(int(time_stamp[index]) - 1).zfill(2)
                         wait(500)
                         time_menu(":".join(time_stamp), time_type)
                     elif "CENTER" in btn:
@@ -267,6 +267,7 @@ def main():
     color_list = setup_colors()
     starting_time, ending_time = setup_time()
     main_menu(current_color)
+    print(starting_time, ending_time)
     wait(500)
     while True:
         if starting_time < get_current_time() < ending_time:
