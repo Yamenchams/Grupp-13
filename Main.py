@@ -117,10 +117,8 @@ def robot_move(part, speed, position):
         part.run(speed)
     robot_hold = False
 
-    print(part)
 
     while not part.angle() == position:
-        print(change_phase)
         if ev3.buttons.pressed() != []:
             btn = str(ev3.buttons.pressed()[0])
             if "CENTER" in btn and robot_hold is False:
@@ -275,7 +273,6 @@ def sorted_release(color_list, current_color, dropoff, dropoff_2):
 
 
 def main():
-    print(get_current_time())
     global change_phase
     current_color = None
     calibration()
@@ -283,7 +280,6 @@ def main():
     color_list = setup_colors()
     starting_time, ending_time = setup_time()
     main_menu(current_color)
-    print(starting_time, ending_time)
     wait(500)
     while True:
         if starting_time < get_current_time() < ending_time:

@@ -20,6 +20,5 @@ def get_current_time():
     
     # Concatenate the time parts into a formatted time string
     formatted_time = hour_str + ':' + min_str + ':' + sec_str
-    print(formatted_time)
     return formatted_time
 
