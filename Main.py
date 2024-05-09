@@ -28,6 +28,14 @@ elbow_sensor = ColorSensor(Port.S2)
 # Change phases
 change_phase = None
 
+# Egen funktion till zfill för pybrick inte kan använda zfill
+def custom_zfill(string, width):
+    if len(string) >= width:
+        return string
+    else:
+        num_zeros = width - len(string)
+        return '0' * num_zeros + string
+
 
 def color_phase_menu(colors):
     ev3.screen.clear()
@@ -176,7 +184,7 @@ def setup_locations():
                 print("Second zone registered")
                 wait(500)
             elif "DOWN" in btn:
-                if dropoff != None and dropoff_2 != None and pickup != None: #jonnybravo har kokat här
+                if dropoff != None and dropoff_2 != None and pickup != None:
                     setup = False
                 else:
                     ev3.speaker.say("You need to register 2 droppoff zones and one pickup zone")
@@ -233,11 +241,11 @@ def setup_time():
                 if ev3.buttons.pressed() != []:
                     btn = str(ev3.buttons.pressed()[0])
                     if "UP" in btn:
-                        time_stamp[index] = str(int(time_stamp[index]) + 1).zfill(2)
+                        time_stamp[index] = custom_zfill(str(int(time_stamp[index]) + 1), 2)
                         wait(500)
                         time_menu(":".join(time_stamp), time_type)
                     elif "DOWN" in btn:
-                        time_stamp[index] = str(int(time_stamp[index]) - 1).zfill(2)
+                        time_stamp[index] = custom_zfill(str(int(time_stamp[index]) - 1), 2)
                         wait(500)
                         time_menu(":".join(time_stamp), time_type)
                     elif "CENTER" in btn:
