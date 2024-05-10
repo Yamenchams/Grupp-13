@@ -13,7 +13,6 @@ This only needs to be once per robot.
 The UI will give instructions on how to maneuver the robot throughout the different phases.
 
 Features:
-
     - [X] US01: Pick up items
     - [X] US01.B: Pick up objects from a specified location
     - [X] US02: Drop off items
